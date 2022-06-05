@@ -26,6 +26,7 @@ function App() {
       <button onClick={handleBad}>bad</button>
       
       <h2>statistics</h2>
+      
       <Statistics
       good={good}
       bad ={bad}
