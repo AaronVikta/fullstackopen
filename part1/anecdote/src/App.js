@@ -34,7 +34,19 @@ function App() {
   const occasionalNumber=(max)=>{
     return Math.floor(Math.random()*max)
   }
-  
+  const maxVotes = () => {
+    let max = 0
+    let index = 0
+    votes.map((item, newIndex) => {
+      if (item > max) {
+        max = item
+        index = newIndex
+      }
+      return index
+    })
+    return index
+  }
+
 
   return (
     <div>
@@ -52,6 +64,19 @@ function App() {
      onClick={handleSelect}>
       next anecdotes
      </button>
+     <h5>Anecdotes with the most Votes</h5>
+     <> 
+     {votes[maxVotes()] === 0 ?
+        <>
+          <p>There are no votes</p>
+        </>
+        :
+        <>
+          <p>{anecdotes[maxVotes()]} is the anecdote with most votes</p>
+          <p>and it has {votes[maxVotes()]} votes</p>
+        </>
+      }
+     </>
     </div>
   );
 }
