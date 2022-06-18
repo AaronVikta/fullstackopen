@@ -1,3 +1,4 @@
+import StatisticLine from "./StatisticLine"
 const Statistics =({good, neutral, bad,all})=>{
 
     const average =(good, neutral, bad)=>{
@@ -27,14 +28,12 @@ const Statistics =({good, neutral, bad,all})=>{
      }
     return(
         <div>
-            
-            <p>good {good}</p>
-            <p>neutral {neutral} </p>
-            <p>bad {bad} </p>
-
-            <p>all {all} </p>
-            <p>Average {average(good, neutral, bad)}</p>
-            Positive {percentage(good, neutral, bad)}
+            <StatisticLine text="Positve Feedback" value={good}/>
+            <StatisticLine text="Neutral Feedback" value={neutral}/>
+            <StatisticLine text="Bad Feedback" value={bad}/>
+            <StatisticLine text="All Feedbacks" value={all}/>
+            <StatisticLine text= "Average Feedback" value= {average(good,neutral,bad)}/>
+            <StatisticLine  text="Percentage Positive Feedback" value= {percentage(good,bad,neutral)}/>
         </div>
     )
 }
