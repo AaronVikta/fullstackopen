@@ -1,9 +1,15 @@
-const Total =(props)=>{
+const Total =({course})=>{
+    
+    const exercises = course.map((exercise)=>{
+        return (exercise.exercises)
+    })
+   
+    const total = exercises.reduce((sum,initial)=>{
+        return sum+initial
+    },0)
     return(
         <>
-            <p>
-                Total number of exercise is {props.parts[0].exercises + props.parts[1].exercises +props.parts[2].exercises }
-            </p>
+            <b>The total of {total} exercises</b>
         </>
     )
 }
