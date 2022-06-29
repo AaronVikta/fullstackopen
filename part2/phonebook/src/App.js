@@ -6,21 +6,45 @@ const App = ()=> {
   ])
 
 const [newName, setNewName] =useState('')
-const [newPhone, setnewPhone] = useState('')
+const [newPhone, setNewPhone] = useState('')
+const [newSearch, setNewSearch] = useState('')
+
 const handleNameChange =(event)=>{
   setNewName(event.target.value)
 }
 
 const handlePhoneChange =(event)=>{
-  setnewPhone(event.target.value)
+  setNewPhone(event.target.value)
 }
 
+const handleSearchChange = (event)=>{
+  console.log(event.target.value);
+  setNewSearch(event.target.value)
+}
+
+let isInSearch =(number) =>{
+  return number.name === newSearch
+}
+
+let numbers = persons.filter(isInSearch)
+console.log(numbers);
+
+const arrayToSearch =()=>{
+  if(newSearch ===''){
+    return persons
+  }
+  else {
+    return numbers
+  }
+}
+let personList = arrayToSearch()
 const addPerson =(event)=>{
   event.preventDefault()
 
   let users = persons.map((item)=>{
     return item.name
   })
+
   if((users.includes(newName))===false){
     const person ={
       name:newName,
@@ -37,6 +61,13 @@ const addPerson =(event)=>{
   return (
     <div>
       <h2> Phonebook</h2>
+      <div>
+        filter shown with 
+        <input
+        value={newSearch}
+        onChange={handleSearchChange}
+        />
+      </div>
       <form>
         <div>
           name: <input 
@@ -59,7 +90,7 @@ const addPerson =(event)=>{
       </form>
       <h2>Numbers</h2>
         {
-          persons.map((item)=>{
+          personList.map((item)=>{
             return (
               <p key={item.name}>
                 {item.name} {item.number}
