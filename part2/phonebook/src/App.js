@@ -1,103 +1,90 @@
-import {useState} from 'react'
+import { useState } from 'react'
+import Persons from './components/Persons'
+import PersonForm from './components/PersonForm'
+import Filter from './components/Filter'
 
-const App = ()=> {
+const App = () => {
   const [persons, setPersons] = useState([
-    {name: 'Arto Hellas', number:''}
+    { name: 'Arto Hellas', number: '040-123456', id: 1 },
+    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
+    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
+    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
   ])
 
-const [newName, setNewName] =useState('')
-const [newPhone, setNewPhone] = useState('')
-const [newSearch, setNewSearch] = useState('')
+  const [newName, setNewName] = useState('')
+  const [newPhone, setNewPhone] = useState('')
+  const [newSearch, setNewSearch] = useState('')
 
-const handleNameChange =(event)=>{
-  setNewName(event.target.value)
-}
-
-const handlePhoneChange =(event)=>{
-  setNewPhone(event.target.value)
-}
-
-const handleSearchChange = (event)=>{
-  console.log(event.target.value);
-  setNewSearch(event.target.value)
-}
-
-let isInSearch =(number) =>{
-  return number.name === newSearch
-}
-
-let numbers = persons.filter(isInSearch)
-console.log(numbers);
-
-const arrayToSearch =()=>{
-  if(newSearch ===''){
-    return persons
+  const handleNameChange = (event) => {
+    setNewName(event.target.value)
   }
-  else {
-    return numbers
+
+  const handlePhoneChange = (event) => {
+    setNewPhone(event.target.value)
   }
-}
-let personList = arrayToSearch()
-const addPerson =(event)=>{
-  event.preventDefault()
 
-  let users = persons.map((item)=>{
-    return item.name
-  })
+  const handleSearchChange = (event) => {
+    console.log(event.target.value);
+    setNewSearch(event.target.value)
+  }
+  let loweredStr = newSearch.toLowerCase()
+  let isInSearch = (number) => {
+    return number.name.toLowerCase() === loweredStr
+  }
 
-  if((users.includes(newName))===false){
-    const person ={
-      name:newName,
-      number:newPhone
+  let numbers = persons.filter(isInSearch)
+
+  const arrayToSearch = () => {
+    if (newSearch === '') {
+      return persons
     }
-    setPersons(persons.concat(person))
-    setNewName('')
+    else {
+      return numbers
+    }
   }
-  else{
-    alert(`${newName} is already added to the phonebook`)
+  let personList = arrayToSearch()
+  const addPerson = (event) => {
+    event.preventDefault()
+
+    let users = persons.map((item) => {
+      return item.name
+    })
+
+    if ((users.includes(newName)) === false) {
+      const person = {
+        name: newName,
+        number: newPhone
+      }
+      setPersons(persons.concat(person))
+      setNewName('')
+    }
+    else {
+      alert(`${newName} is already added to the phonebook`)
+    }
   }
-}
 
   return (
     <div>
       <h2> Phonebook</h2>
-      <div>
-        filter shown with 
-        <input
-        value={newSearch}
-        onChange={handleSearchChange}
-        />
-      </div>
-      <form>
-        <div>
-          name: <input 
-          value={newName}
-          onChange={handleNameChange}
-          />
-        </div>
-        <div>
-          number: <input
-          value= {newPhone}
-          onChange={handlePhoneChange}
-          />
-        </div>
-        <div>
-          <button type='submit'
-          onClick={addPerson}>
-            add
-          </button>
-        </div>
-      </form>
+
+      <Filter
+        newSearch={newSearch}
+        handleSearchChange={handleSearchChange}
+      />
+
+      <PersonForm
+        newName={newName}
+        handleNameChange={handleNameChange}
+        newPhone={newPhone}
+        handlePhoneChange={handlePhoneChange}
+        addPerson={addPerson}
+      />
+
       <h2>Numbers</h2>
-        {
-          personList.map((item)=>{
-            return (
-              <p key={item.name}>
-                {item.name} {item.number}
-              </p>
-            )
-          })
-        }
+      <Persons
+        personList={personList}
+      />
+
     </div>
   );
 }
